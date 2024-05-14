@@ -6,3 +6,12 @@ GET {{rootURL}}/shshhkjhg
 ### =====user api
 ### Get user
 GET {{apiEP}}/users
+
+### Post user
+POST {{apiEP}}/users
+Content-Type: application/json
+
+{
+    "fName":"Bikal",
+    "emai":"email@email.com"
+}
