@@ -1,0 +1,3 @@
+@rootURL = http://localhost:8000/api/v1
+### server api
+GET {{rootURL}}
