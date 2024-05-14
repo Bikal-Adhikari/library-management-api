@@ -1,3 +1,8 @@
-@rootURL = http://localhost:8000/api/v1
+@rootURL = http://localhost:8000
+@apiEP = {{rootURL}}/api/v1
 ### server api
-GET {{rootURL}}
+GET {{rootURL}}/shshhkjhg
+
+### =====user api
+### Get user
+GET {{apiEP}}/users

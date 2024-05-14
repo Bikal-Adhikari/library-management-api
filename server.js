@@ -3,6 +3,10 @@ const app = express();
 
 const PORT = process.env.PORT || 8000;
 
+//connect MongoDB
+import { connectMongoDB } from "./src/config/mongoConfig.js";
+connectMongoDB();
+
 //middlewares
 import cors from "cors";
 import morgan from "morgan";
@@ -18,25 +22,23 @@ if (process.env.NODE_ENV !== "production") {
 import userRouter from "./src/routers/userRouter.js";
 app.use("/api/v1/users", userRouter);
 
-app.use("*", (req, res, next) => {
-  const error = {
-    message: "404 page not found",
-    errorCode: 404,
-  };
-  next(error);
-});
-app.use("/", (req, res) => {
+// server status
+app.get("/", (req, res) => {
   res.json({
     message: "Server running healthy",
   });
 });
 
+app.use("*", (req, res, next) => {
+  const err = new Error("404 page not found");
+  err.status = 404;
+  next(err);
+});
 //global error handler
 
 app.use((error, req, res, next) => {
-  console.log(error);
-  const errorCode = error.errorCode || 500;
-  res.status(errorCode).json({
+  res.status(error.status || 500);
+  res.json({
     status: "error",
     message: error.message,
   });
