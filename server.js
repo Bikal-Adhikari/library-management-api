@@ -15,14 +15,32 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 //routers
+import userRouter from "./src/routers/userRouter.js";
+app.use("/api/v1/users", userRouter);
 
-app.use("/api/v1", (req, res) => {
+app.use("*", (req, res, next) => {
+  const error = {
+    message: "404 page not found",
+    errorCode: 404,
+  };
+  next(error);
+});
+app.use("/", (req, res) => {
   res.json({
     message: "Server running healthy",
   });
 });
 
 //global error handler
+
+app.use((error, req, res, next) => {
+  console.log(error);
+  const errorCode = error.errorCode || 500;
+  res.status(errorCode).json({
+    status: "error",
+    message: error.message,
+  });
+});
 
 app.listen(PORT, (error) => {
   error
