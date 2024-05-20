@@ -1,6 +1,6 @@
 import express from "express";
-import { createNewUser } from "../models/user/userModal.js";
-import { hashPassword } from "../utils/bcrypt.js";
+import { createNewUser, getUserByEmail } from "../models/user/userModal.js";
+import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { newUserValidation } from "../middlewares/joiValidation.js";
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.all("/", (req, res, next) => {
   next();
 });
 
+// return the user profile
 router.get("/", (req, res, next) => {
   try {
     res.json({
@@ -20,6 +21,8 @@ router.get("/", (req, res, next) => {
     next(error);
   }
 });
+
+//create new user
 router.post("/", newUserValidation, async (req, res, next) => {
   try {
     req.body.password = hashPassword(req.body.password);
@@ -40,6 +43,35 @@ router.post("/", newUserValidation, async (req, res, next) => {
         "Another user already have this email, change your email and try again";
       error.status = 200;
     }
+    next(error);
+  }
+});
+
+//login
+
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email.includes("@") && !password) {
+      throw new Error("Invalid login details");
+    }
+    // find user by email
+    const user = await getUserByEmail(email);
+    if (user?._id) {
+      // verify the password
+      const isPasswordMatched = comparePassword(password, user.password);
+
+      if (isPasswordMatched) {
+        //user authentication
+        //create token, and return
+        return res.json({
+          status: "success",
+          message: "user authenticated",
+          tokens: {},
+        });
+      }
+    }
+  } catch (error) {
     next(error);
   }
 });
