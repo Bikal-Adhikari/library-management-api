@@ -2,6 +2,7 @@ import express from "express";
 import { createNewUser, getUserByEmail } from "../models/user/userModal.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { newUserValidation } from "../middlewares/joiValidation.js";
+import { signAccessJWT, signRefreshJWT } from "../utils/jwt.js";
 const router = express.Router();
 
 router.all("/", (req, res, next) => {
@@ -64,13 +65,21 @@ router.post("/login", async (req, res, next) => {
       if (isPasswordMatched) {
         //user authentication
         //create token, and return
+
         return res.json({
           status: "success",
           message: "user authenticated",
-          tokens: {},
+          tokens: {
+            accessJWT: signAccessJWT({ email }),
+            refreshJWT: signRefreshJWT(email),
+          },
         });
       }
     }
+    res.json({
+      status: "error",
+      message: "Invalid login details",
+    });
   } catch (error) {
     next(error);
   }
