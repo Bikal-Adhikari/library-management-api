@@ -14,6 +14,16 @@ export const signAccessJWT = (payload) => {
 
 // verify access jwt
 
+export const verifyAccessJWT = (token) => {
+  try {
+    return JWT.verify(token, process.env.ACCESS_JWT_SECRET);
+  } catch (error) {
+    console.log(error.message);
+    return "Invalid Token";
+  }
+  // return JWT.verify(token, );
+};
+
 // create refresh jwt
 
 export const signRefreshJWT = (email) => {
