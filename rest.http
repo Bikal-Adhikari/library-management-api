@@ -6,7 +6,7 @@ GET {{rootURL}}/shshhkjhg
 ### =====user api
 ### Get user
 GET {{apiEP}}/users
-Authorization: 
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE3MTYyNTcxNjUsImV4cCI6MTcxNjI1ODA2NX0.Uc0xGRRN31ewbZ5YPikuitIpyUZ78U-D5sTsAYTAF38
 
 ### Post user
 POST {{apiEP}}/users
