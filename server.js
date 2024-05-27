@@ -20,7 +20,10 @@ if (process.env.NODE_ENV !== "production") {
 
 //routers
 import userRouter from "./src/routers/userRouter.js";
+import bookRouter from "./src/routers/bookRouter.js";
 app.use("/api/v1/users", userRouter);
+
+app.use("/api/v1/books", bookRouter);
 
 // server status
 app.get("/", (req, res) => {
