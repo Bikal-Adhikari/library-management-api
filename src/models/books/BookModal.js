@@ -1,4 +1,4 @@
-import BookSchema from "./BookSchema";
+import BookSchema from "./BookSchema.js";
 
 // insert
 export const insertBook = (obj) => {

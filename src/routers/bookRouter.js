@@ -1,17 +1,22 @@
 import express from "express";
-import { auth } from "../middlewares/auth.js";
+import { auth, isAdmin } from "../middlewares/auth.js";
+import { newBookValidation } from "../middlewares/joiValidation.js";
+import { insertBook } from "../models/books/BookModal.js";
 const router = express.Router();
 
 //create new user
-router.post("/", auth, async (req, res, next) => {
+router.post("/", auth, isAdmin, newBookValidation, async (req, res, next) => {
   try {
-    if (req.userInfo.role !== "admin") {
-      throw new Error({
-        status: 403,
-        message: "UnAuthorized",
-      });
-    }
-    console.log(req.body);
+    const book = await insertBook(req.body);
+    book?._id
+      ? res.json({
+          status: "success",
+          message: "Book added successfully",
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to add new book, try again later",
+        });
   } catch (error) {
     if (error.message.includes("E11000 duplicate key")) {
       error.message =

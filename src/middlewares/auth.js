@@ -29,3 +29,9 @@ export const auth = async (req, res, next) => {
     next(error);
   }
 };
+
+export const isAdmin = (req, res, next) => {
+  req.userInfo.role === "admin"
+    ? next()
+    : next({ status: 403, message: "Unauthorized" });
+};
