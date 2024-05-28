@@ -1,10 +1,14 @@
 import express from "express";
 import { auth, isAdmin } from "../middlewares/auth.js";
-import { newBookValidation } from "../middlewares/joiValidation.js";
+import {
+  editBookValidation,
+  newBookValidation,
+} from "../middlewares/joiValidation.js";
 import {
   getABookById,
   getAllBooks,
   insertBook,
+  updateBookById,
 } from "../models/books/BookModal.js";
 const router = express.Router();
 
@@ -37,6 +41,24 @@ router.get("/all", auth, isAdmin, async (req, res, next) => {
     // get all active books
     const books = await getAllBooks();
     res.json({ status: "success", books });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/", auth, isAdmin, editBookValidation, async (req, res, next) => {
+  try {
+    const { _id, ...rest } = req.body;
+    const update = await updateBookById(_id, rest);
+    update?._id
+      ? res.json({
+          status: "success",
+          message: "Book edit successfully",
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to edit book, try again later",
+        });
   } catch (error) {
     next(error);
   }
