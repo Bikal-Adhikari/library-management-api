@@ -1,7 +1,11 @@
 import express from "express";
 import { auth, isAdmin } from "../middlewares/auth.js";
 import { newBookValidation } from "../middlewares/joiValidation.js";
-import { getAllBooks, insertBook } from "../models/books/BookModal.js";
+import {
+  getABookById,
+  getAllBooks,
+  insertBook,
+} from "../models/books/BookModal.js";
 const router = express.Router();
 
 //create new Book
@@ -40,10 +44,13 @@ router.get("/all", auth, isAdmin, async (req, res, next) => {
 
 // public controllers
 
-router.get("/", async (req, res, next) => {
+router.get("/:_id?", async (req, res, next) => {
   try {
+    const { _id } = req.params;
     // get all active books
-    const books = await getAllBooks({ status: "active" });
+    const books = _id
+      ? await getABookById(_id)
+      : await getAllBooks({ status: "active" });
     res.json({ status: "success", books });
   } catch (error) {
     next(error);
