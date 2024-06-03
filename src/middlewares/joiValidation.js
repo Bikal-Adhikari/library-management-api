@@ -54,3 +54,14 @@ export const editBookValidation = (req, res, next) => {
   });
   return joiValidator({ req, res, next, schema });
 };
+
+// ============ Burrow validation
+
+export const newBurrowValidation = (req, res, next) => {
+  const schema = Joi.object({
+    bookTitle: STR_REQUIRED,
+    bookId: STR_REQUIRED,
+    thumbnail: STR_REQUIRED,
+  });
+  return joiValidator({ req, res, next, schema });
+};

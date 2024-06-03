@@ -32,6 +32,14 @@ const bookSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isAvailable: {
+      type: Boolean,
+      default: true,
+    },
+    expectedAvailable: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
