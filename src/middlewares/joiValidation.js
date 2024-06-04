@@ -9,6 +9,8 @@ const EMAIL = Joi.string().email({
 });
 const ISTRUE = Joi.boolean().allow(null, "");
 
+const NUM_REQ = Joi.number().required();
+
 const joiValidator = ({ req, res, next, schema }) => {
   try {
     const { error } = schema.validate(req.body);
@@ -63,6 +65,13 @@ export const editBookValidation = (req, res, next) => {
 export const newBurrowValidation = (req, res, next) => {
   const schema = Joi.object({
     bookTitle: STR_REQUIRED,
+    bookId: STR_REQUIRED,
+    thumbnail: STR_REQUIRED,
+  });
+  return joiValidator({ req, res, next, schema });
+};
+export const newReviewValidation = (req, res, next) => {
+  const schema = Joi.object({
     bookId: STR_REQUIRED,
     thumbnail: STR_REQUIRED,
   });

@@ -23,7 +23,9 @@ import userRouter from "./src/routers/userRouter.js";
 import bookRouter from "./src/routers/bookRouter.js";
 import burrowRouter from "./src/routers/burrowRouter.js";
 import { auth } from "./src/middlewares/auth.js";
+import reviewRouter "./src/routers/reviewRouter.js"
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/review", reviewRouter);
 
 app.use("/api/v1/books", bookRouter);
 app.use("/api/v1/burrows", auth, burrowRouter);
