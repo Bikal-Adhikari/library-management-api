@@ -15,7 +15,7 @@ const burrowSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userId: {
+    bookId: {
       type: mongoose.Types.ObjectId,
       ref: "Book",
       required: true,
@@ -31,6 +31,10 @@ const burrowSchema = new mongoose.Schema(
     isAvailable: {
       type: Boolean,
       default: true,
+    },
+    dueDate: {
+      type: Date,
+      default: "",
     },
   },
   {

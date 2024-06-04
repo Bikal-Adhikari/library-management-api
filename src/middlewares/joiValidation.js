@@ -7,6 +7,7 @@ const EMAIL = Joi.string().email({
   minDomainSegments: 2,
   tlds: { allow: ["com", "net"] },
 });
+const ISTRUE = Joi.boolean().allow(null, "");
 
 const joiValidator = ({ req, res, next, schema }) => {
   try {
@@ -51,6 +52,8 @@ export const editBookValidation = (req, res, next) => {
     thumbnail: STR_REQUIRED,
     publishedYear: Joi.number(),
     description: STR_REQUIRED,
+    isAvailable: ISTRUE,
+    expectedAvailable: Joi.date().allow(null, ""),
   });
   return joiValidator({ req, res, next, schema });
 };
