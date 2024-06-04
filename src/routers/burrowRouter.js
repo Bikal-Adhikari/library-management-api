@@ -3,6 +3,7 @@ import { newBurrowValidation } from "../middlewares/joiValidation.js";
 import {
   getAllBurrows,
   insertBurrow,
+  updateBurrowById,
 } from "../models/burrowHistory/BurrowModal.js";
 import { updateBookById } from "../models/books/BookModal.js";
 const router = express.Router();
@@ -52,12 +53,46 @@ router.post("/", newBurrowValidation, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const { _id, role } = req.userInfo;
-    const burrows = (await getAllBurrows({ userId: _id })) || [];
+    const filter = role === "admin" ? null : { userId: _id };
+    const burrows = (await getAllBurrows(filter)) || [];
 
     res.json({
       status: "success",
       message: "",
       burrows,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+router.put("/", async (req, res, next) => {
+  try {
+    if (!req.body._id || !req.body.bookId) {
+      throw new Error("Invalid data");
+    }
+    // update burrow table
+
+    const burrow = await updateBurrowById(req.body._id, {
+      isReturned: true,
+      returnedDate: Date(),
+    });
+
+    //update book table
+
+    const book = await updateBookById(req.body.bookId, {
+      isAvailable: true,
+      expectedAvailable: null,
+    });
+
+    if (burrow?._id && book?._id) {
+      return res.json({
+        status: "Success",
+        message: "You have sucessfully returned the book",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Invalid data, please try again",
     });
   } catch (error) {
     next(error);
