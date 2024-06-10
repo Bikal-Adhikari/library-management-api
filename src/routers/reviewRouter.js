@@ -1,8 +1,8 @@
 import express from "express";
-import { auth } from "../middlewares/auth.js";
+import { auth, isAdmin } from "../middlewares/auth.js";
 import { newReviewValidation } from "../middlewares/joiValidation.js";
 
-import { insertReview } from "../models/reviews/ReviewModal.js";
+import { getAllReviews, insertReview } from "../models/reviews/ReviewModal.js";
 const router = express.Router();
 
 //create new Book
@@ -25,6 +25,32 @@ router.post("/", auth, newReviewValidation, async (req, res, next) => {
         "Another Book with same ISBN already exist, change your detail and try again";
       error.status = 200;
     }
+    next(error);
+  }
+});
+
+//return public active reviews
+router.get("/", async (req, res, next) => {
+  try {
+    const reviews = await getAllReviews({ status: "active" });
+    return res.json({
+      status: "Success",
+      message: "",
+      reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get("/all", auth, isAdmin, async (req, res, next) => {
+  try {
+    const reviews = await getAllReviews();
+    return res.json({
+      status: "Success",
+      message: "",
+      reviews,
+    });
+  } catch (error) {
     next(error);
   }
 });
