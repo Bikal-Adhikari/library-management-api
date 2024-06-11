@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const bookSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     status: {
       type: String,
@@ -10,10 +10,6 @@ const bookSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
-    thumbnail: {
-      type: String,
-      default: "",
-    },
     burrowId: {
       type: mongoose.Types.ObjectId,
       required: true,
@@ -22,11 +18,11 @@ const bookSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
-    title: {
+    userName: {
       type: String,
       required: true,
     },
-    userName: {
+    tilte: {
       type: String,
       required: true,
     },
@@ -47,4 +43,4 @@ const bookSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Book", bookSchema);
+export default mongoose.model("Review", reviewSchema);

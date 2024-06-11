@@ -1,19 +1,18 @@
 import ReviewSchema from "./ReviewSchema.js";
-import BookSchema from "./ReviewSchema.js";
 
 // insert
 export const insertReview = (obj) => {
-  return BookSchema(obj).save();
+  return ReviewSchema(obj).save();
 };
 
 // Read all for the admin || public
 export const getAllReviews = (filter) => {
-  return BookSchema.find(filter);
+  return ReviewSchema.find(filter);
 };
 
 //get book by Id
 export const getAReviewById = (_id) => {
-  return BookSchema.findById(_id);
+  return ReviewSchema.findById(_id);
 };
 
 // Update book by Id
