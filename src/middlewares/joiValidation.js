@@ -80,6 +80,7 @@ export const newReviewValidation = (req, res, next) => {
     tilte: STR_REQUIRED,
     userId: STR_REQUIRED,
     userName: STR_REQUIRED,
+    thumbnail: STR_REQUIRED,
   });
   return joiValidator({ req, res, next, schema });
 };
