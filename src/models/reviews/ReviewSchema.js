@@ -8,7 +8,18 @@ const bookSchema = new mongoose.Schema(
     },
     bookId: {
       type: mongoose.Types.ObjectId,
-      default: "inactive",
+      required: true,
+    },
+    thumbnail: {
+      type: String,
+      default: "",
+    },
+    burrowId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+    },
+    userId: {
+      type: mongoose.Types.ObjectId,
       required: true,
     },
     title: {

@@ -1,3 +1,4 @@
+import ReviewSchema from "./ReviewSchema.js";
 import BookSchema from "./ReviewSchema.js";
 
 // insert
@@ -15,10 +16,10 @@ export const getAReviewById = (_id) => {
   return BookSchema.findById(_id);
 };
 
-//Update book by Id
-// export const updateBookById = (_id, obj) => {
-//   return BookSchema.findByIdAndUpdate(_id, obj, { new: true });
-// };
+// Update book by Id
+export const updateReviewById = (_id, obj) => {
+  return ReviewSchema.findByIdAndUpdate(_id, obj, { new: true });
+};
 
 //Delete book by Id
 // export const deleteBookById = (_id) => {

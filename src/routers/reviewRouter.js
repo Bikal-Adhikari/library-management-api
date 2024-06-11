@@ -2,7 +2,11 @@ import express from "express";
 import { auth, isAdmin } from "../middlewares/auth.js";
 import { newReviewValidation } from "../middlewares/joiValidation.js";
 
-import { getAllReviews, insertReview } from "../models/reviews/ReviewModal.js";
+import {
+  getAllReviews,
+  insertReview,
+  updateReviewById,
+} from "../models/reviews/ReviewModal.js";
 const router = express.Router();
 
 //create new Book
@@ -50,6 +54,23 @@ router.get("/all", auth, isAdmin, async (req, res, next) => {
       message: "",
       reviews,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+router.patch("/", auth, isAdmin, async (req, res, next) => {
+  try {
+    const { _id, status } = req.body;
+    const review = await updateReviewById(_id, { status });
+    review?._id
+      ? res.json({
+          status: "success",
+          message: "Your review has been updated",
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to update the review, try again later",
+        });
   } catch (error) {
     next(error);
   }
